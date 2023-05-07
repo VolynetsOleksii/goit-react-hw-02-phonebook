@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 
-class ContactForm extends Component {
+export default class ContactForm extends Component {
   state = {
     name: '',
+    number: '',
   };
   nameId = nanoid();
+  telId = nanoid();
 
   handleChange = (evt) => {
     this.setState({ [evt.target.name]: evt.target.value });
   };
 
   reset = () => {
-    this.setState({ name: "" });
+    this.setState({ name: "", number: "" });
   };
 
   handleSubmit = (evt) => {
@@ -36,10 +38,23 @@ class ContactForm extends Component {
             required
           />
         </label>
+        <label>
+          Number{' '}
+          <input
+            type="tel"
+            name="number"
+            id={this.telId}
+            onChange={this.handleChange}
+            value={this.state.number}
+            pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+          />
+        </label>
         <button type="submit">Add contact</button>
       </form>
     );
   }
 }
 
-export default ContactForm;
+ 
