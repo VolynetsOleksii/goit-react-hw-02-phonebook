@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import ContactForm from './Form/Form';
+import { ContactForm } from './Form/Form';
 import { ContactsList } from './Contacts/ContactList';
 import { nanoid } from 'nanoid';
 import { Filter } from './Filter/Filter';
@@ -17,8 +17,8 @@ export class App extends Component {
   addContact = ({ name, number }) => {
     const { contacts } = this.state;
     const newContact = { id: nanoid(), name, number };
-    const checkUser = contacts.find(
-      contact => contact.name === newContact.name
+    const checkUser = contacts.some(
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
 
     checkUser
@@ -39,18 +39,30 @@ export class App extends Component {
     );
   };
 
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
+
   render() {
     const {
       addContact,
       handleChange,
+      getFilteredContacts,
+      deleteContact,
       state: { filter },
     } = this;
+
     return (
       <div>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={addContact} />
         <Filter handleChange={handleChange} filter={filter} />
-        <ContactsList contacts={this.getFilteredContacts()} />
+        <ContactsList
+          contacts={getFilteredContacts()}
+          onDeleteContact={deleteContact}
+        />
       </div>
     );
   }
