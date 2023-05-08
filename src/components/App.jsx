@@ -1,8 +1,11 @@
 import { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { ContactForm } from './Form/Form';
 import { ContactsList } from './Contacts/ContactList';
 import { nanoid } from 'nanoid';
 import { Filter } from './Filter/Filter';
+import { Container } from './Container/Container.styled';
 
 export class App extends Component {
   state = {
@@ -22,14 +25,15 @@ export class App extends Component {
     );
 
     checkUser
-      ? alert(`${name} is already in the contacts`)
+      ? toast.warn(`${name} is already in the contacts`)
       : this.setState(() => ({
           contacts: [newContact, ...contacts],
         }));
   };
 
   handleChange = evt => {
-    this.setState({ [evt.target.name]: evt.target.value });
+    const { name, value } = evt.currentTarget;
+    this.setState({ [name]: value });
   };
 
   getFilteredContacts = () => {
@@ -55,7 +59,7 @@ export class App extends Component {
     } = this;
 
     return (
-      <div>
+      <Container>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={addContact} />
         <Filter handleChange={handleChange} filter={filter} />
@@ -63,7 +67,8 @@ export class App extends Component {
           contacts={getFilteredContacts()}
           onDeleteContact={deleteContact}
         />
-      </div>
+        <ToastContainer />
+      </Container>
     );
   }
 }

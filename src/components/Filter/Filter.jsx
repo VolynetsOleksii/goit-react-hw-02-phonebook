@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { InputFilter, LabelFilter } from "./Filter.styled";
 
-export const Filter = ({ handleChange, filter }) => (
-    <label>
+export const Filter = ({ filter, handleChange  }) => (
+    <LabelFilter>
       Find contacts by Name
-      <input onChange={handleChange} type="text" name="filter" value={filter} />
-    </label>
+      <InputFilter onChange={handleChange} type="text" name="filter" value={filter} />
+    </LabelFilter>
   );
 
   Filter.propTypes = {
